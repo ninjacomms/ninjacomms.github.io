@@ -1,88 +1,61 @@
-/* Stile base */
 body {
   background-color: #0b0b16;
-  color: #e0e0e0;
-  font-family: 'Arial', sans-serif;
+  color: #f5d76e;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-/* Card centrale */
-.card {
+.container {
   max-width: 800px;
-  margin: 80px auto;
-  padding: 40px;
-  background-color: #111;
-  border: 1px solid #d4af37;
+  margin: 60px auto;
+  padding: 30px;
+  background: #111;
+  border: 1px solid #d4af37;   /* bordo oro */
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);  /* glow dorato */
 }
 
-/* Logo */
-.logo {
-  width: 130px;
-  margin: 0 auto 20px;
-  display: block;
-  animation: pulse 3s infinite;
+img.logo {
+  width: 120px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 12px #d4af37);
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); filter: drop-shadow(0 0 4px #d4af37); }
-  50% { transform: scale(1.05); filter: drop-shadow(0 0 12px #d4af37); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 4px #d4af37); }
-}
-
-/* Titoli */
 h1 {
-  color: #d4af37;
-  margin-bottom: 20px;
   font-size: 2em;
+  margin-bottom: 10px;
+  color: #f5d76e;
 }
 
 h2 {
-  color: #d4af37;
-  margin-top: 30px;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #f5d76e;
 }
 
-/* Paragrafi */
 p {
   line-height: 1.6;
-  margin-bottom: 15px;
-  color: #ccc;
+  margin-bottom: 20px;
+  color: #ddd;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  margin: 8px 0;
-  color: #d4af37;
-  font-weight: bold;
-}
-
-/* Link */
 a {
   color: #d4af37;
   text-decoration: none;
+  margin: 0 8px;
   font-weight: bold;
-  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: white;
-  text-shadow: 0 0 8px #d4af37;
+  color: #fff;
 }
 
-/* Navigazione */
-nav {
-  margin-top: 25px;
-  font-size: 1rem;
+footer {
+  margin-top: 30px;
+  font-size: 0.8em;
+  color: #aaa;
 }
 
-nav a {
-  margin: 0 12px;
-}
+  
