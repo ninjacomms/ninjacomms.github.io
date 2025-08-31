@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #0d0d1a;
+  color: #d4af37;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 30px;
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  background: #111;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.logo {
+  width: 120px;
+  margin-bottom: 20px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% { filter: drop-shadow(0 0 5px #d4af37); }
+  100% { filter: drop-shadow(0 0 20px #ffdd55); }
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 10px 0;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 10px 0 30px;
+  color: #c8a453;
+}
+
+.intro {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+nav a {
+  margin: 0 10px;
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: white;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.8rem;
+  color: #aaa;
+}
