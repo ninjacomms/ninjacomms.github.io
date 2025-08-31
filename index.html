@@ -5,37 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ninja — Secure Communication</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    function switchLang(lang) {
+      document.querySelectorAll("[data-en]").forEach(el => {
+        el.innerHTML = el.getAttribute("data-" + lang);
+      });
+    }
+  </script>
 </head>
 <body>
+  <div class="lang-bar">
+    <a href="#" onclick="switchLang('en')">EN</a> | 
+    <a href="#" onclick="switchLang('it')">IT</a>
+  </div>
+
   <div class="container">
     <img src="favicon.png" alt="Ninja Logo" class="logo" />
     <h1>🥷 NINJA</h1>
-    <h2>Secure Communication. Digital Freedom.</h2>
-    <p>
-      Ninja è un progetto indipendente che nasce per proteggere la tua <strong>privacy</strong>, 
-      liberarti dal <strong>bloatware</strong> e offrirti strumenti digitali sicuri e trasparenti.
+    <h2 data-en="Secure Communication. Digital Freedom."
+        data-it="Comunicazione Sicura. Libertà Digitale.">
+      Secure Communication. Digital Freedom.
+    </h2>
+    <p data-en="Ninja is an independent project born to protect your <strong>privacy</strong>, free you from <strong>bloatware</strong>, and offer secure and transparent digital tools."
+       data-it="Ninja è un progetto indipendente nato per proteggere la tua <strong>privacy</strong>, liberarti dal <strong>bloatware</strong> e offrirti strumenti digitali sicuri e trasparenti.">
+      Ninja is an independent project born to protect your <strong>privacy</strong>, free you from <strong>bloatware</strong>, and offer secure and transparent digital tools.
     </p>
   </div>
 
-  <!-- Sezioni About e Privacy sintetiche -->
   <div class="sub-container">
     <h3>About</h3>
-    <p>
-      Ninja è più di un'app: è una visione. Un ambiente digitale progettato 
-      per ridarti il controllo della tua vita online, eliminare i tracciamenti 
-      e costruire strumenti liberi e indipendenti.
+    <p data-en="Ninja is more than an app: it’s a vision. A digital environment designed to give you back control, eliminate tracking, and build free and independent tools."
+       data-it="Ninja è più di un'app: è una visione. Un ambiente digitale progettato per ridarti il controllo, eliminare i tracciamenti e costruire strumenti liberi e indipendenti.">
+       Ninja is more than an app: it’s a vision. A digital environment designed to give you back control, eliminate tracking, and build free and independent tools.
     </p>
     <a href="about.html">Read more →</a>
   </div>
 
   <div class="sub-container">
-    <h3>Privacy Guide</h3>
-    <p>
-      Non ci accontentiamo di dire “encrypted”: ti aiutiamo a capire come 
-      difenderti dal monitoraggio, dalle pubblicità invasive e dai servizi 
-      che usano i tuoi dati senza consenso.
+    <h3 data-en="Privacy Guide" data-it="Guida alla Privacy">Privacy Guide</h3>
+    <p data-en="We don’t just say 'encrypted': we help you understand how to defend yourself from tracking, invasive ads, and services using your data without consent."
+       data-it="Non ci limitiamo a dire 'crittografato': ti aiutiamo a difenderti da tracciamenti, pubblicità invasive e servizi che usano i tuoi dati senza consenso.">
+       We don’t just say 'encrypted': we help you understand how to defend yourself from tracking, invasive ads, and services using your data without consent.
     </p>
-    <a href="privacy.html">Read more →</a>
+    <a href="privacy.html" data-en="Read more →" data-it="Leggi di più →">Read more →</a>
   </div>
 
   <footer>
