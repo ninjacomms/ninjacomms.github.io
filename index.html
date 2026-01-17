@@ -1,63 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ninja — Secure Communication</title>
-  <link rel="stylesheet" href="style.css" />
-  <script>
-    function switchLang(lang) {
-      document.querySelectorAll("[data-en]").forEach(el => {
-        el.innerHTML = el.getAttribute("data-" + lang);
+<!-- FILE: app.html (o index.html) -->
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NinjaComms — Secure Communication. Digital Freedom.</title>
+
+    <style>
+      :root {
+        --bg: #07192f;
+        --gold: #d6b25c;
+        --text: #e8eefc;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* HERO */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+      }
+
+      #hero-vanta {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(closest-side, rgba(0,0,0,.05), rgba(0,0,0,.75));
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 2;
+        width: min(1100px, calc(100% - 40px));
+        text-align: center;
+        padding: 40px 0 56px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .app-logo {
+        width: clamp(140px, 22vw, 220px);
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 16px 34px rgba(0,0,0,.55));
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 3.8vw, 3.2rem);
+        line-height: 1.1;
+      }
+
+      .lead {
+        margin: 0;
+        max-width: 68ch;
+        opacity: 0.92;
+        line-height: 1.6;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-weight: 800;
+        cursor: pointer;
+        border: 0;
+        transition: transform 160ms ease, opacity 160ms ease;
+      }
+      .btn:hover { opacity: .95; }
+      .btn:active { transform: translateY(1px); }
+
+      .btn-primary {
+        background: rgba(255,255,255,.92);
+        color: #0b1220;
+      }
+
+      .btn-ghost {
+        background: rgba(255,255,255,.10);
+        color: var(--gold);
+        outline: 1px solid rgba(214,178,92,.35);
+        backdrop-filter: blur(6px);
+      }
+
+      .kicker {
+        color: var(--gold);
+        letter-spacing: .22em;
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: .85rem;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="hero">
+      <div id="hero-vanta" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <img class="app-logo" src="/ninjacomms-removebg-preview.png" alt="NinjaComms" />
+
+        <div class="kicker">Secure • Private • E2EE</div>
+        <h1>Secure Communication. Digital Freedom.</h1>
+        <p class="lead">
+          End-to-end encryption by design. Built for people who want privacy without compromise.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#download">Get the App</a>
+          <a class="btn btn-ghost" href="#privacy">Privacy</a>
+          <a class="btn btn-ghost" href="#contact">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scripts (fine pagina) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <script>
+      window.addEventListener("load", () => {
+        const el = document.querySelector("#hero-vanta");
+        if (!el || !window.THREE || !window.VANTA?.NET) return;
+
+        // Rispetta "reduce motion"
+        if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
+
+        window.__heroVanta?.destroy?.();
+
+        window.__heroVanta = window.VANTA.NET({
+          el,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200,
+          minWidth: 200,
+          scale: 1.0,
+          scaleMobile: 1.0,
+
+          // Match col tuo logo: dark + gold
+          backgroundColor: 0x07192f,
+          color: 0xd6b25c,
+          points: 10.0,
+          maxDistance: 22.0,
+          spacing: 18.0,
+          showDots: true,
+        });
       });
-    }
-  </script>
-</head>
-<body>
-  <div class="lang-bar">
-    <a href="#" onclick="switchLang('en')">EN</a> | 
-    <a href="#" onclick="switchLang('it')">IT</a>
-  </div>
-
-  <div class="container">
-    <img src="favicon.png" alt="Ninja Logo" class="logo" />
-    <h1>NINJA</h1>
-    <h2 data-en="Secure Communication. Digital Freedom."
-        data-it="Comunicazione Sicura. Libertà Digitale.">
-      Secure Communication. Digital Freedom.
-    </h2>
-    <p data-en="Ninja is an independent project born to protect your <strong>privacy</strong>, free you from <strong>bloatware</strong>, and offer secure and transparent digital tools."
-       data-it="Ninja è un progetto indipendente nato per proteggere la tua <strong>privacy</strong>, liberarti dal <strong>bloatware</strong> e offrirti strumenti digitali sicuri e trasparenti.">
-      Ninja is an independent project born to protect your <strong>privacy</strong>, free you from <strong>bloatware</strong>, and offer secure and transparent digital tools.
-    </p>
-  </div>
-
-  <div class="sub-container">
-    <h3>About</h3>
-    <p data-en="Ninja is more than an app: it’s a vision. A digital environment designed to give you back control, eliminate tracking, and build free and independent tools."
-       data-it="Ninja è più di un'app: è una visione. Un ambiente digitale progettato per ridarti il controllo, eliminare i tracciamenti e costruire strumenti liberi e indipendenti.">
-       Ninja is more than an app: it’s a vision. A digital environment designed to give you back control, eliminate tracking, and build free and independent tools.
-    </p>
-    <a href="about.html">Read more →</a>
-  </div>
-
-  <div class="sub-container">
-    <h3 data-en="Privacy Guide" data-it="Guida alla Privacy">Privacy Guide</h3>
-    <p data-en="We don’t just say 'encrypted': we help you understand how to defend yourself from tracking, invasive ads, and services using your data without consent."
-       data-it="Non ci limitiamo a dire 'crittografato': ti aiutiamo a difenderti da tracciamenti, pubblicità invasive e servizi che usano i tuoi dati senza consenso.">
-       We don’t just say 'encrypted': we help you understand how to defend yourself from tracking, invasive ads, and services using your data without consent.
-    </p>
-    <a href="privacy.html" data-en="Read more →" data-it="Leggi di più →">Read more →</a>
-  </div>
-
-  <footer>
-    <nav>
-      <a href="about.html">About</a> | 
-      <a href="app.html">App</a> | 
-      <a href="privacy.html">Privacy Guide</a> | 
-      <a href="contact.html">Contact</a>
-    </nav>
-    <p>© 2025 Ninja Project — Digital Sovereignty</p>
-  </footer>
-</body>
+    </script>
+  </body>
 </html>
