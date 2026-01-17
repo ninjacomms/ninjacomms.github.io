@@ -1,23 +1,104 @@
-<!-- FILE: app.html (o index.html) -->
 <!doctype html>
-<html lang="it">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+
     <title>NinjaComms — Secure Communication. Digital Freedom.</title>
+    <meta name="description" content="NinjaComms is an end-to-end encrypted messaging app built for privacy without compromise." />
+
+    <!-- Basic Social Preview -->
+    <meta property="og:title" content="NinjaComms — Secure Communication. Digital Freedom." />
+    <meta property="og:description" content="End-to-end encrypted messaging app built for privacy without compromise." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <style>
       :root {
         --bg: #07192f;
+        --bg2: #050a14;
         --gold: #d6b25c;
         --text: #e8eefc;
+        --muted: rgba(232, 238, 252, 0.82);
+        --panel: rgba(255, 255, 255, 0.04);
+        --panel-border: rgba(255, 255, 255, 0.06);
+        --scroll-offset: 84px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--scroll-offset);
       }
 
       body {
         margin: 0;
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: var(--bg);
+        background: radial-gradient(1200px 800px at 50% 0%, #0a2546, var(--bg2));
         color: var(--text);
+      }
+
+      /* Top nav */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.25);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .topbar-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 900;
+        letter-spacing: 0.03em;
+      }
+
+      .brand img {
+        width: 26px;
+        height: 26px;
+        display: block;
+        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+      }
+
+      .nav {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        padding: 8px 10px;
+        border-radius: 999px;
+        transition: opacity 160ms ease, background 160ms ease;
+      }
+
+      .nav a:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.06);
       }
 
       /* HERO */
@@ -27,6 +108,7 @@
         overflow: hidden;
         display: grid;
         place-items: center;
+        padding-top: var(--scroll-offset);
       }
 
       #hero-vanta {
@@ -41,7 +123,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: radial-gradient(closest-side, rgba(0,0,0,.05), rgba(0,0,0,.75));
+        background: radial-gradient(closest-side, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.78));
         z-index: 1;
         pointer-events: none;
       }
@@ -51,7 +133,7 @@
         z-index: 2;
         width: min(1100px, calc(100% - 40px));
         text-align: center;
-        padding: 40px 0 56px;
+        padding: 52px 0 62px;
         display: flex;
         flex-direction: column;
         gap: 18px;
@@ -59,23 +141,33 @@
       }
 
       .app-logo {
-        width: clamp(140px, 22vw, 220px);
+        width: clamp(150px, 20vw, 220px);
         height: auto;
         display: block;
-        filter: drop-shadow(0 16px 34px rgba(0,0,0,.55));
+        filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.55));
+      }
+
+      .kicker {
+        color: var(--gold);
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 0.82rem;
+        user-select: none;
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2rem, 3.8vw, 3.2rem);
-        line-height: 1.1;
+        font-size: clamp(2.1rem, 3.8vw, 3.3rem);
+        line-height: 1.08;
       }
 
       .lead {
         margin: 0;
-        max-width: 68ch;
+        max-width: 72ch;
         opacity: 0.92;
-        line-height: 1.6;
+        line-height: 1.65;
+        font-size: clamp(1rem, 1.2vw, 1.15rem);
       }
 
       .cta-row {
@@ -83,7 +175,7 @@
         gap: 12px;
         justify-content: center;
         flex-wrap: wrap;
-        margin-top: 8px;
+        margin-top: 10px;
       }
 
       .btn {
@@ -93,39 +185,171 @@
         text-decoration: none;
         border-radius: 999px;
         padding: 12px 18px;
-        font-weight: 800;
+        font-weight: 900;
         cursor: pointer;
         border: 0;
         transition: transform 160ms ease, opacity 160ms ease;
+        letter-spacing: 0.02em;
       }
-      .btn:hover { opacity: .95; }
+      .btn:hover { opacity: 0.95; }
       .btn:active { transform: translateY(1px); }
 
       .btn-primary {
-        background: rgba(255,255,255,.92);
+        background: rgba(255, 255, 255, 0.92);
         color: #0b1220;
       }
 
       .btn-ghost {
-        background: rgba(255,255,255,.10);
+        background: rgba(255, 255, 255, 0.10);
         color: var(--gold);
-        outline: 1px solid rgba(214,178,92,.35);
+        outline: 1px solid rgba(214, 178, 92, 0.35);
         backdrop-filter: blur(6px);
       }
 
-      .kicker {
-        color: var(--gold);
-        letter-spacing: .22em;
+      /* Sections */
+      section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 74px 20px;
+        scroll-margin-top: var(--scroll-offset);
+      }
+
+      .panel {
+        border-radius: 22px;
+        padding: 26px;
+        background: rgba(0, 0, 0, 0.28);
+        outline: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .section-title {
+        margin: 0 0 10px;
+        font-size: 1.65rem;
+        letter-spacing: 0.01em;
+      }
+
+      .section-sub {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 80ch;
+      }
+
+      .grid {
+        margin-top: 18px;
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      @media (max-width: 920px) {
+        .grid { grid-template-columns: 1fr; }
+        .nav { display: none; }
+      }
+
+      .card {
+        border-radius: 18px;
+        overflow: hidden;
+        background: var(--panel);
+        outline: 1px solid var(--panel-border);
+      }
+
+      .card-top {
+        height: 120px;
+        background: linear-gradient(135deg, rgba(214, 178, 92, 0.22), rgba(255, 255, 255, 0.03));
+      }
+
+      .card-body {
+        padding: 16px;
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-weight: 900;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .pill-row {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        font-weight: 800;
-        font-size: .85rem;
-        user-select: none;
+        padding: 6px 10px;
+        border-radius: 999px;
+        color: var(--gold);
+        background: rgba(214, 178, 92, 0.10);
+        outline: 1px solid rgba(214, 178, 92, 0.22);
+      }
+
+      .cta-box {
+        margin-top: 18px;
+        border-radius: 18px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.04);
+        outline: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .cta-box strong {
+        color: var(--gold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+
+      .footer {
+        padding: 26px 20px 46px;
+        max-width: 1100px;
+        margin: 0 auto;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .footer a {
+        color: var(--gold);
+        text-decoration: none;
+        font-weight: 900;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
 
   <body>
-    <header class="hero">
+    <div class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#top" aria-label="NinjaComms home">
+          <img src="/favicon.png" alt="" aria-hidden="true" />
+          <span>NinjaComms</span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#features">Features</a>
+          <a href="#security">Security</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </div>
+
+    <header id="top" class="hero">
       <div id="hero-vanta" aria-hidden="true"></div>
 
       <div class="hero-inner">
@@ -145,16 +369,163 @@
       </div>
     </header>
 
-    <!-- Scripts (fine pagina) -->
+    <section id="about">
+      <div class="panel">
+        <h2 class="section-title">About</h2>
+        <p class="section-sub">
+          NinjaComms is an E2EE messaging app focused on privacy, simplicity, and reliable security for everyday use.
+        </p>
+
+        <div class="cta-box">
+          <div>
+            <strong>Early access</strong>
+            <div style="margin-top:6px;">Want to test the beta? Send us your device + OS.</div>
+          </div>
+          <a class="btn btn-ghost" href="mailto:info@ninjacomms.com?subject=NinjaComms%20Beta%20Access&body=Hi%20team,%0A%0AI'd%20like%20to%20join%20the%20beta.%0ADevice:%0AOS%20version:%0ACountry:%0A%0AThanks!">
+            Request Beta
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="panel">
+        <h2 class="section-title">Features</h2>
+        <p class="section-sub">Everything you need for secure, private messaging.</p>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>End-to-End Encryption</h3>
+              <p>Messages are encrypted on your device and decrypted only by the recipient.</p>
+              <div class="pill-row">
+                <span class="pill">E2EE</span><span class="pill">Private</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>Minimal Metadata</h3>
+              <p>Built to reduce unnecessary data collection and limit exposure.</p>
+              <div class="pill-row">
+                <span class="pill">Privacy</span><span class="pill">Trust</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>Fast & Lightweight</h3>
+              <p>Optimized UX and performance—privacy should feel effortless.</p>
+              <div class="pill-row">
+                <span class="pill">Speed</span><span class="pill">UX</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="security">
+      <div class="panel">
+        <h2 class="section-title">Security</h2>
+        <p class="section-sub">
+          Strong crypto, clean threat model, and a security mindset across the stack.
+          (We’ll add detailed docs + audits as the project ships.)
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>Threat Model</h3>
+              <p>Clear assumptions and design goals to keep the product honest.</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>Key Management</h3>
+              <p>Keys stay on-device. We’ll publish details and implementation notes.</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-top" aria-hidden="true"></div>
+            <div class="card-body">
+              <h3>Verification</h3>
+              <p>Identity verification options to reduce impersonation risk.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="panel">
+        <h2 class="section-title">Get the App</h2>
+        <p class="section-sub">
+          Coming soon. Join the beta to receive updates and early builds.
+        </p>
+
+        <div class="cta-row" style="margin-top:18px;">
+          <a class="btn btn-primary" href="mailto:info@ninjacomms.com?subject=NinjaComms%20Download%20Updates&body=Hi%20team,%0A%0AI'd%20like%20to%20receive%20download%20updates.%0AEmail:%0APlatform%20(iOS/Android/Desktop):%0A%0AThanks!">
+            Get Updates
+          </a>
+          <a class="btn btn-ghost" href="#contact">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <div class="panel">
+        <h2 class="section-title">Privacy</h2>
+        <p class="section-sub">
+          Privacy is the product. We’ll publish our privacy guide, data handling policy,
+          and security documentation here.
+        </p>
+
+        <div class="cta-box">
+          <div>
+            <strong>Privacy Guide</strong>
+            <div style="margin-top:6px;">For now, request the draft via email.</div>
+          </div>
+          <a class="btn btn-ghost" href="mailto:info@ninjacomms.com?subject=Privacy%20Guide%20Request&body=Hi%20team,%0A%0APlease%20send%20me%20the%20Privacy%20Guide%20draft.%0A%0AThanks!">
+            Request Guide
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="panel">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-sub">
+          Email us at
+          <a href="mailto:info@ninjacomms.com" style="color: var(--gold); font-weight: 900; text-decoration: none;">info@ninjacomms.com</a>
+          — we’ll reply as soon as possible.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © <span id="year"></span> NinjaComms • <a href="mailto:info@ninjacomms.com">info@ninjacomms.com</a>
+    </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
     <script>
       window.addEventListener("load", () => {
+        const y = document.getElementById("year");
+        if (y) y.textContent = new Date().getFullYear();
+
         const el = document.querySelector("#hero-vanta");
         if (!el || !window.THREE || !window.VANTA?.NET) return;
 
-        // Rispetta "reduce motion"
         if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
 
         window.__heroVanta?.destroy?.();
@@ -169,7 +540,6 @@
           scale: 1.0,
           scaleMobile: 1.0,
 
-          // Match col tuo logo: dark + gold
           backgroundColor: 0x07192f,
           color: 0xd6b25c,
           points: 10.0,
