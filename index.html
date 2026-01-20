@@ -104,13 +104,6 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
-    // Texture font katakana (16x16 grid)
-    const textureLoader = new THREE.TextureLoader();
-    const fontTexture = textureLoader.load('https://i.imgur.com/3Z5Xj0L.png');
-    fontTexture.minFilter = THREE.NearestFilter;
-    fontTexture.magFilter = THREE.NearestFilter;
-    fontTexture.wrapS = fontTexture.wrapT = THREE.RepeatWrapping;
-
     const vertexShader = `
       varying vec2 vUv;
       void main() {
@@ -123,38 +116,38 @@
       precision highp float;
       uniform float iTime;
       uniform vec2 iResolution;
-      uniform sampler2D iChannel0;
       varying vec2 vUv;
 
-      float text(vec2 fragCoord) {
-        vec2 uv = mod(fragCoord.xy, vec2(16.0)) * 0.0625;
-        vec2 block = floor(fragCoord.xy * 0.0625) - uv;
-        uv = uv * 0.8 + 0.1;
-        uv += floor(texture(iChannel0, block / iResolution.xy + iTime * 0.002).xy * 16.0);
-        uv *= 0.0625;
-        uv.x = -uv.x;
-        return texture(iChannel0, uv).r;
-      }
-
-      vec3 rain(vec2 fragCoord) {
-        float offset = sin(fragCoord.x * 15.0);
-        float speed = cos(fragCoord.x * 3.0) * 0.3 + 0.7;
-        float y = fract(fragCoord.y / iResolution.y + iTime * speed + offset);
-        return vec3(0.1, 1.0, 0.35) / (y * 20.0);
+      float random(vec2 st) {
+        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
       }
 
       void main() {
-        vec2 fragCoord = gl_FragCoord.xy;
-        vec3 col = text(fragCoord) * rain(fragCoord);
-        gl_FragColor = vec4(col, 1.0);
+        vec2 uv = gl_FragCoord.xy / iResolution.xy;
+        uv.y *= iResolution.y / iResolution.x;
+
+        float speed = 0.4; // velocità moderata, puoi ridurre a 0.25-0.3
+        float column = floor(uv.x * 100.0);
+        float row = floor((uv.y + iTime * speed) * 60.0);
+
+        float fade = fract((uv.y + iTime * speed) * 60.0);
+        float brightness = smoothstep(0.0, 0.08, fade) * (1.0 - fade * 1.6);
+
+        vec3 color = vec3(0.0, 0.8, 0.4) * brightness * 0.8; // verde/teal Matrix
+
+        // glitch random per effetto "crittografico"
+        if (random(vec2(iTime * 0.05 + column, row)) > 0.995) {
+          color += vec3(0.3, 0.1, 0.4) * 0.4;
+        }
+
+        gl_FragColor = vec4(color, 1.0);
       }
     `;
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
         iTime: { value: 0 },
-        iResolution: { value: new THREE.Vector2() },
-        iChannel0: { value: fontTexture }
+        iResolution: { value: new THREE.Vector2() }
       },
       vertexShader,
       fragmentShader
