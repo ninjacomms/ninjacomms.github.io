@@ -3,7 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninja Comms - Secure Communication</title>
+  <title>Ninja Comms - Secure <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ninja Comms – Matrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+}
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+.content {
+  position: relative;
+  z-index: 1;
+  color: #dff;
+  font-family: system-ui, sans-serif;
+  text-align: center;
+  padding-top: 40vh;
+}
+</style>
+</head>
+
+<body>
+<canvas id="gl"></canvas>
+
+<div class="content">
+  <h1>Ninja Comms</h1>
+  <p>Secure communication layer</p>
+</div>
+
+<script>
+const canvas = document.getElementById("gl");
+const gl = canvas.getContext("webgl");
+
+const resize = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  gl.viewport(0, 0, canvas.width, canvas.height);
+};
+window.addEventListener("resize", resize);
+resize();
+
+const vertex = `
+attribute vec2 position;
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const fragment = `
+precision highp float;
+uniform vec2 iResolution;
+uniform float iTime;
+
+float rand(vec2 co){
+  return fract(sin(dot(co.xy,vec2(12.9898,78.233)))*43758.5453);
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / iReso_
+Communication</title>
   <style>
     body {
       margin: 0;
