@@ -26,40 +26,49 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px 80px;
+      box-sizing: border-box;
     }
     .logo {
-      max-width: 320px;
-      width: 70%;
+      max-width: 280px;
+      width: 65%;
       height: auto;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
+      display: block;
     }
     h1 {
-      font-size: 3.4em;
-      margin: 0 0 24px;
+      font-size: 3.2em;
+      margin: 0 0 20px;
       font-weight: 600;
     }
     .description {
-      font-size: 1.4em;
+      font-size: 1.3em;
       line-height: 1.5;
-      max-width: 720px;
-      margin: 0 auto 32px;
+      max-width: 680px;
+      margin: 0 auto 28px;
     }
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
-      font-size: 1.3em;
-      line-height: 1.8;
+      font-size: 1.25em;
+      line-height: 1.7;
     }
     li {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
-    @media (max-width: 640px) {
-      h1 { font-size: 2.6em; }
-      .description { font-size: 1.2em; }
-      ul { font-size: 1.15em; }
+    @media (max-width: 768px) {
       .logo { max-width: 240px; margin-bottom: 32px; }
+      h1 { font-size: 2.6em; }
+      .description { font-size: 1.15em; max-width: 90%; }
+      ul { font-size: 1.1em; }
+      .content { padding: 40px 15px 60px; }
+    }
+    @media (max-width: 480px) {
+      .logo { max-width: 200px; }
+      h1 { font-size: 2.2em; }
+      .description { font-size: 1.05em; }
+      ul { font-size: 1.0em; }
     }
   </style>
 </head>
@@ -92,7 +101,7 @@
     scene.background = new THREE.Color(0x000814);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
+    camera.position.z = 35; // zoom out per spazio maggiore
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -107,19 +116,19 @@
       mouse.unproject(camera);
     });
 
-    // Particelle
-    const count = 600; // ridotto per performance
+    // Particelle ridotte
+    const count = 150;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
     for (let i = 0; i < count * 3; i += 3) {
-      positions[i]     = (Math.random() - 0.5) * 60;
-      positions[i + 1] = (Math.random() - 0.5) * 60;
-      positions[i + 2] = (Math.random() - 0.5) * 60;
+      positions[i]     = (Math.random() - 0.5) * 70;
+      positions[i + 1] = (Math.random() - 0.5) * 70;
+      positions[i + 2] = (Math.random() - 0.5) * 70;
 
-      colors[i]     = 0.0 + Math.random() * 0.2;
-      colors[i + 1] = 0.6 + Math.random() * 0.3;
-      colors[i + 2] = 0.8 + Math.random() * 0.2;
+      colors[i]     = 0.0 + Math.random() * 0.15;
+      colors[i + 1] = 0.55 + Math.random() * 0.25;
+      colors[i + 2] = 0.75 + Math.random() * 0.15;
     }
 
     const particlesGeometry = new THREE.BufferGeometry();
@@ -127,18 +136,18 @@
     particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
-      size: 0.15,
+      size: 0.18,
       vertexColors: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.6,
       blending: THREE.AdditiveBlending
     });
 
     const particles = new THREE.Points(particlesGeometry, material);
     scene.add(particles);
 
-    // Linee di connessione
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00b7eb, transparent: true, opacity: 0.2 });
+    // Linee molto rarefatte
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00a0d0, transparent: true, opacity: 0.08 });
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = [];
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
@@ -147,9 +156,8 @@
     function animate() {
       requestAnimationFrame(animate);
 
-      particles.rotation.y += 0.00015; // rotazione molto lenta
+      particles.rotation.y += 0.0001; // rotazione quasi impercettibile
 
-      // Aggiorna linee con interattività mouse
       linePositions.length = 0;
       const pos = particlesGeometry.attributes.position.array;
       for (let i = 0; i < count; i++) {
@@ -157,8 +165,7 @@
         const py = pos[i*3+1];
         const pz = pos[i*3+2];
 
-        // Distanza dal mouse (proiettato)
-        const distToMouse = Math.hypot(px - mouse.x*30, py - mouse.y*30, pz);
+        const distToMouse = Math.hypot(px - mouse.x*40, py - mouse.y*40, pz);
 
         for (let j = i + 1; j < count; j++) {
           const qx = pos[j*3];
@@ -166,8 +173,8 @@
           const qz = pos[j*3+2];
           const dist = Math.hypot(px - qx, py - qy, pz - qz);
 
-          // Connessione se vicine o vicino al mouse
-          if (dist < 12 || distToMouse < 15) {
+          // Connessione solo se molto vicine o mouse vicino
+          if (dist < 20 || distToMouse < 18) {
             linePositions.push(px, py, pz);
             linePositions.push(qx, qy, qz);
           }
