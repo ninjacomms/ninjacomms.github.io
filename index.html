@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninja Comms - Privacy First</title>
+  <title>Ninja Comms - Secure Communication</title>
   <style>
     body {
       margin: 0;
       overflow: hidden;
       background: #000000;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #e0f7fa;
     }
     #bg {
       position: fixed;
@@ -19,13 +20,12 @@
     .content {
       position: relative;
       z-index: 1;
-      color: #e0f7fa;
-      text-align: center;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
       padding: 40px 20px;
     }
     .logo {
@@ -33,7 +33,6 @@
       width: 70%;
       height: auto;
       margin-bottom: 48px;
-      display: block;
     }
     h1 {
       font-size: 3.4em;
@@ -89,10 +88,8 @@
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169/build/three.module.js';
 
     const container = document.getElementById('bg');
-
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -123,11 +120,8 @@
         float column = floor(uv.x * 90.0);
         float row = floor((uv.y + iTime * speed) * 55.0);
 
-        float value = random(vec2(column, row));
-        float brightness = 0.0;
-
         float fade = fract((uv.y + iTime * speed) * 55.0);
-        brightness = smoothstep(0.0, 0.07, fade) * (1.0 - fade * 1.3);
+        float brightness = smoothstep(0.0, 0.07, fade) * (1.0 - fade * 1.3);
 
         vec3 color = vec3(0.0, 0.75, 0.95) * brightness * 0.75;
 
@@ -149,8 +143,7 @@
     });
 
     const geometry = new THREE.PlaneGeometry(2, 2);
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    scene.add(new THREE.Mesh(geometry, material));
 
     function animate() {
       requestAnimationFrame(animate);
@@ -165,7 +158,6 @@
       renderer.setSize(w, h);
       material.uniforms.iResolution.value.set(w, h);
     });
-
     material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
   </script>
 
