@@ -82,7 +82,7 @@
     <h1>Ninja Comms</h1>
 
     <div class="description">
-      The Ninja app is a secure communication platform designed to ensure privacy, transparency, and simplicity.
+      The Ninja app is a secure encrypted communication platform designed to ensure privacy, transparency, and simplicity, with no compromise.
     </div>
 
     <ul>
@@ -98,101 +98,85 @@
 
     const container = document.getElementById('bg');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000814);
-
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 35; // zoom out per spazio maggiore
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
-    // Mouse position
-    const mouse = new THREE.Vector3();
-    window.addEventListener('mousemove', (event) => {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      mouse.z = 0.5;
-      mouse.unproject(camera);
+    // Texture per le lettere Matrix (font katakana pubblico)
+    const textureLoader = new THREE.TextureLoader();
+    const fontTexture = textureLoader.load('https://i.imgur.com/3Z5Xj0L.png'); // texture katakana 16x16
+    fontTexture.minFilter = THREE.NearestFilter;
+    fontTexture.magFilter = THREE.NearestFilter;
+
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      precision highp float;
+      uniform float iTime;
+      uniform vec2 iResolution;
+      uniform sampler2D iChannel0; // font texture
+      varying vec2 vUv;
+
+      float text(vec2 fragCoord) {
+        vec2 uv = mod(fragCoord.xy, 16.0) * 0.0625;
+        vec2 block = fragCoord * 0.0625 - uv;
+        uv = uv * 0.8 + 0.1;
+        uv += floor(texture(iChannel0, block / iResolution.xy + iTime * 0.002).xy * 16.0);
+        uv *= 0.0625;
+        uv.x = -uv.x;
+        return texture(iChannel0, uv).r;
+      }
+
+      vec3 rain(vec2 fragCoord) {
+        fragCoord.x -= mod(fragCoord.x, 16.0);
+        float offset = sin(fragCoord.x * 15.0);
+        float speed = cos(fragCoord.x * 3.0) * 0.3 + 0.7;
+        float y = fract(fragCoord.y / iResolution.y + iTime * speed + offset);
+        return vec3(0.1, 1.0, 0.35) / (y * 20.0);
+      }
+
+      void main() {
+        vec2 fragCoord = gl_FragCoord.xy;
+        vec3 col = text(fragCoord) * rain(fragCoord);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        iTime: { value: 0 },
+        iResolution: { value: new THREE.Vector2() },
+        iChannel0: { value: fontTexture }
+      },
+      vertexShader,
+      fragmentShader
     });
 
-    // Particelle ridotte
-    const count = 150;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
-
-    for (let i = 0; i < count * 3; i += 3) {
-      positions[i]     = (Math.random() - 0.5) * 70;
-      positions[i + 1] = (Math.random() - 0.5) * 70;
-      positions[i + 2] = (Math.random() - 0.5) * 70;
-
-      colors[i]     = 0.0 + Math.random() * 0.15;
-      colors[i + 1] = 0.55 + Math.random() * 0.25;
-      colors[i + 2] = 0.75 + Math.random() * 0.15;
-    }
-
-    const particlesGeometry = new THREE.BufferGeometry();
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 0.18,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending
-    });
-
-    const particles = new THREE.Points(particlesGeometry, material);
-    scene.add(particles);
-
-    // Linee molto rarefatte
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00a0d0, transparent: true, opacity: 0.08 });
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePositions = [];
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(lines);
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    scene.add(new THREE.Mesh(geometry, material));
 
     function animate() {
       requestAnimationFrame(animate);
-
-      particles.rotation.y += 0.0001; // rotazione quasi impercettibile
-
-      linePositions.length = 0;
-      const pos = particlesGeometry.attributes.position.array;
-      for (let i = 0; i < count; i++) {
-        const px = pos[i*3];
-        const py = pos[i*3+1];
-        const pz = pos[i*3+2];
-
-        const distToMouse = Math.hypot(px - mouse.x*40, py - mouse.y*40, pz);
-
-        for (let j = i + 1; j < count; j++) {
-          const qx = pos[j*3];
-          const qy = pos[j*3+1];
-          const qz = pos[j*3+2];
-          const dist = Math.hypot(px - qx, py - qy, pz - qz);
-
-          // Connessione solo se molto vicine o mouse vicino
-          if (dist < 20 || distToMouse < 18) {
-            linePositions.push(px, py, pz);
-            linePositions.push(qx, qy, qz);
-          }
-        }
-      }
-
-      lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-      lineGeometry.attributes.position.needsUpdate = true;
-
+      material.uniforms.iTime.value = performance.now() / 1000;
       renderer.render(scene, camera);
     }
     animate();
 
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      renderer.setSize(w, h);
+      material.uniforms.iResolution.value.set(w, h);
     });
+    material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
   </script>
 
 </body>
