@@ -16,7 +16,6 @@ html, body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Canvas Matrix */
 #gl {
   position: fixed;
   inset: 0;
@@ -25,7 +24,6 @@ html, body {
   z-index: -1;
 }
 
-/* Contenuto sopra */
 .content {
   position: relative;
   z-index: 1;
@@ -84,7 +82,7 @@ h1 {
 </div>
 
 <script>
-/* ===== WebGL MATRIX RAIN ===== */
+/* ================= WEBGL MATRIX RAIN ================= */
 
 const canvas = document.getElementById("gl");
 const gl = canvas.getContext("webgl");
@@ -92,6 +90,10 @@ const gl = canvas.getContext("webgl");
 if (!gl) {
   alert("WebGL non disponibile");
 }
+
+/* Stato WebGL corretto */
+gl.disable(gl.DEPTH_TEST);
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
 function resize() {
   canvas.width = window.innerWidth;
@@ -133,7 +135,7 @@ void main() {
   float head = smoothstep(0.0, 0.05, y);
 
   float brightness = tail + head * 2.5;
-  vec3 color = vec3(0.0, 1.0, 0.35) * brightness;
+  vec3 color = vec3(0.0, 1.0, 0.35) * (brightness + 0.15);
 
   gl_FragColor = vec4(color, 1.0);
 }
@@ -171,6 +173,7 @@ const resLoc = gl.getUniformLocation(program, "iResolution");
 const timeLoc = gl.getUniformLocation(program, "iTime");
 
 function render(time) {
+  gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform2f(resLoc, canvas.width, canvas.height);
   gl.uniform1f(timeLoc, time * 0.001);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
