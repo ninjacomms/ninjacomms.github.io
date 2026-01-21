@@ -9,19 +9,21 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: black;
-  overflow: hidden;
   width: 100%;
   height: 100%;
+  background: black;
+  overflow: hidden;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-canvas {
+/* MATRIX CANVAS */
+#matrix {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
 }
 
+/* CONTENT SOPRA */
 .content {
   position: relative;
   z-index: 1;
@@ -80,7 +82,7 @@ h1 {
 </div>
 
 <script>
-/* ============ MATRIX RAIN – CANVAS 2D ============ */
+/* ================= MATRIX RAIN (CANVAS 2D) ================= */
 
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
@@ -92,7 +94,10 @@ function resize() {
 window.addEventListener("resize", resize);
 resize();
 
-const letters = "アァカサタナハマヤャラワガザダバパ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const chars =
+  "アァカサタナハマヤャラワガザダバパ" +
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 const fontSize = 16;
 let columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
@@ -105,7 +110,7 @@ function draw() {
   ctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
-    const text = letters[Math.floor(Math.random() * letters.length)];
+    const text = chars[Math.floor(Math.random() * chars.length)];
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
