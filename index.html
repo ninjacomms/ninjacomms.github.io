@@ -117,6 +117,10 @@ h1 {
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
+const fontSize = 16;
+let columns;
+let drops;
+
 function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -124,16 +128,13 @@ function resize() {
   columns = Math.floor(canvas.width / fontSize);
   drops = Array(columns).fill(1);
 }
+
 window.addEventListener("resize", resize);
 resize();
 
 const chars =
   "アァカサタナハマヤャラワガザダバパ" +
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-const fontSize = 16;
-let columns = Math.floor(canvas.width / fontSize);
-let drops = Array(columns).fill(1);
 
 function draw() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
