@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ninja Comms – Secure Communication</title>
+<title>Ninja Comms — Invisible by design</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -16,14 +16,14 @@ html, body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* MATRIX CANVAS */
+/* MATRIX BACKGROUND */
 #matrix {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
 
-/* CONTENT SOPRA */
+/* CENTER CONTENT */
 .content {
   position: relative;
   z-index: 1;
@@ -38,30 +38,39 @@ html, body {
   box-sizing: border-box;
 }
 
+/* NINJA ICON */
 .logo {
-  max-width: 260px;
-  width: 65%;
+  max-width: 220px;
+  width: 60%;
   height: auto;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
+
+  /* glow + breath */
+  animation:
+    ninjaGlow 6s ease-in-out infinite,
+    breathe 8s ease-in-out infinite;
 }
 
+/* TEXT */
 h1 {
-  font-size: 3em;
-  margin: 0 0 16px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 600;
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
 }
 
-.description {
-  font-size: 1.25em;
-  max-width: 680px;
-  line-height: 1.5;
-  opacity: 0.9;
+/* ANIMATIONS */
+@keyframes ninjaGlow {
+  0%   { filter: drop-shadow(0 0 6px rgba(0,255,180,0.25)); }
+  50%  { filter: drop-shadow(0 0 14px rgba(0,255,180,0.45)); }
+  100% { filter: drop-shadow(0 0 6px rgba(0,255,180,0.25)); }
 }
 
-@media (max-width: 768px) {
-  h1 { font-size: 2.4em; }
-  .description { font-size: 1.1em; }
-  .logo { max-width: 220px; }
+@keyframes breathe {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 </style>
 </head>
@@ -71,14 +80,17 @@ h1 {
 <canvas id="matrix"></canvas>
 
 <div class="content">
-  <img src="assets/app_icon_ninja_transparent.png"
-       alt="Ninja Comms Logo"
-       class="logo">
+  <img
+    src="assets/app_icon_ninja_transparent.png"
+    alt="Ninja Comms"
+    class="logo"
+  />
 
-  <h1>Ninja Comms</h1>
-  <div class="description">
-    Secure communication layer
-  </div>
+  <h1>
+    Secure communication.<br>
+    Digital freedom.<br>
+    <span style="opacity:0.85;">Invisible by design.</span>
+  </h1>
 </div>
 
 <script>
